@@ -25,7 +25,7 @@ namespace TitaniumMemberGift
 
         private void btnStartSchedule_Click(object sender, EventArgs e)
         {
-            Log("已啟動每月鈦金獨享禮排程...");
+            Log("已啟動每月鈦金會員獨享禮排程...");
             RunTitaniumGifts();
             ScheduleTitaniumMemberGiftMonthlyRun();
 
@@ -40,8 +40,7 @@ namespace TitaniumMemberGift
             if (now.Day >= 1)
                 nextRun = nextRun.AddMonths(1);
 
-            //TimeSpan timeToGo = nextRun - now;
-            TimeSpan timeToGo = TimeSpan.FromSeconds(10);
+            TimeSpan timeToGo = nextRun - now;
 
             _timer?.Dispose();
             _timer = new System.Threading.Timer(x =>
@@ -55,7 +54,7 @@ namespace TitaniumMemberGift
 
         private void btnManualRun_Click(object sender, EventArgs e)
         {
-            Log("手動發送當月獨享禮...");
+            Log("手動發送當月鈦金會員獨享禮...");
             RunTitaniumGifts();
         }
 
@@ -73,7 +72,7 @@ namespace TitaniumMemberGift
                 {
                     conn.Open();
 
-                    // 取得鈦金禮會員
+                    // 取得鈦金禮會員(等級=鈦金、成為會員日<本月1號)
                     var titaniumMembers = conn.Query<(string Card_no, string Card_Type)>(@"
                         SELECT Card_no, Card_Type
                         FROM [dbo].[PointCard]
@@ -174,7 +173,7 @@ namespace TitaniumMemberGift
                                     tran.Rollback();
                                 }
 
-                                //9.發送訊息
+                                //發送訊息
                                 string couponTemplate = titaniumGift?.Message;
                                 string couponMessage = !string.IsNullOrEmpty(couponTemplate)
                                     ? string.Format(couponTemplate, titaniumGift.Bonus)
