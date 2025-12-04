@@ -31,9 +31,9 @@ namespace TitaniumMemberGift
             SuspendLayout();
 
             // 🔹 btnManualRun
-            btnManualRun.Location = new Point(460, 20);
+            btnManualRun.Location = new Point(435, 20);
             btnManualRun.Name = "btnManualRun";
-            btnManualRun.Size = new Size(150, 30);
+            btnManualRun.Size = new Size(180, 30);
             btnManualRun.TabIndex = 1;
             btnManualRun.Text = "手動檢查當月鈦金會員獨享禮";
             btnManualRun.UseVisualStyleBackColor = true;

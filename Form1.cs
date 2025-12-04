@@ -7,18 +7,25 @@ using System.Windows.Forms;
 using System.Transactions;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Tab;
 using System.Data.Common;
+using Microsoft.Extensions.Configuration;
 
 namespace TitaniumMemberGift
 {
     public partial class Form1 : Form
     {
         private System.Threading.Timer? _timer;
-        private readonly string _connectionString = "Server=localhost;Database=tom;Trusted_Connection=True;TrustServerCertificate=true;MultipleActiveResultSets=true;";
+        private readonly string _connectionString;
         private DateTime? _nextRunTime;
 
-        public Form1()
+        public Form1(string connectionString)
         {
             InitializeComponent();
+            var config = new ConfigurationBuilder()
+            .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+            .Build();
+
+            _connectionString = connectionString;
             Log("系統已啟動，請按「開始每月排程」。");
             lblStartTime.Text = $"程式啟動時間：{DateTime.Now:yyyy/MM/dd HH:mm:ss}";
         }
